@@ -7,32 +7,45 @@ void print_char(char c){
 int main(int argc,char **argv){
 
     //DECLARACION DE VARIABLES
-    int numArgc,i,tamanoArgumento;
+    int numArgc,i,tamanoArgumento,quitarEspacios;
 
     //INICIALIZACION DE VARIABLES
-    numArgc=argc-1;
+    numArgc=1;
+    quitarEspacios=1;
 
     //LOGICA
-    while(numArgc>0){
-        if (numArgc%2!=0){
-            i=0;
-            while(argv[numArgc][i]!='\0'){
-                print_char(argv[numArgc][i]);
-                i++;
+    if (argc>1){
+        while(numArgc<=argc-1){
+                if (numArgc%2!=0){
+                    i=0;
+                    while(argv[numArgc][i]!='\0'){
+                        if(argv[numArgc][i]!=' ' || quitarEspacios==0){
+                            print_char(argv[numArgc][i]);
+                            quitarEspacios=0;
+                        }
+                        i++;
+                    }
+                    quitarEspacios=1;
+                    write(1,"\n",1);
+                }else{
+                    tamanoArgumento=0;
+                    while(argv[numArgc][tamanoArgumento]!='\0'){
+                        tamanoArgumento++;
+                    }
+                    while(tamanoArgumento>=0){
+                        if(argv[numArgc][tamanoArgumento]!=' '){
+                            print_char(argv[numArgc][tamanoArgumento]);
+                        }
+                        tamanoArgumento--;
+                    }
+                    write(1,"\n",1);
+                }
+                numArgc++;
             }
-            write(1," ",1);
-        }else{
-            tamanoArgumento=0;
-            while(argv[numArgc][tamanoArgumento]!='\0'){
-                tamanoArgumento++;
-            }
-            while(tamanoArgumento>=0){
-                print_char(argv[numArgc][tamanoArgumento]);
-                tamanoArgumento--;
-            }
-        }
-        numArgc--;
+    }else{
+        write(1,"\n",1);
     }
+    
 
     return (0);
 }
